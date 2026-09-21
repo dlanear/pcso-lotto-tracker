@@ -2,12 +2,12 @@ name: Daily PCSO Lotto Scraper
 
 on:
   schedule:
-    # Runs everyday at 13:45 UTC (9:45 PM Philippine Standard Time)
+    # Runs everyday at 9:45 PM Philippine Standard Time (13:45 UTC)
     - cron: '45 13 * * *'
-  workflow_dispatch: # Allows manual trigger execution button via panel
+  workflow_dispatch: # Keeps the manual run button active
 
 permissions:
-  contents: write # Grants runner write permission to push data.json updates
+  contents: write # Explicitly tells GitHub it is safe to write files
 
 jobs:
   scrape:
@@ -15,6 +15,8 @@ jobs:
     steps:
     - name: Checkout Repository Code
       uses: actions/checkout@v4
+      with:
+        persist-credentials: true # Forces GitHub to keep authentication active
 
     - name: Set up Python Environment
       uses: actions/setup-python@v5
@@ -29,8 +31,8 @@ jobs:
 
     - name: Commit and Push Updated Data Resource
       run: |
-        git config --global user.name "GitHub Action Bot"
-        git config --global user.email "actions@github.com"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@://github.com"
         git add data.json
-        git diff-index --quiet HEAD || git commit -m "Automated update: Fresh lotto draws synchronization"
-        git push
+        # The statement below prevents crashing if data.json hasn't changed
+        git diff-index --quiet HEAD || (git commit -m "Automated update: Fresh lotto draws synchronization" && git push)
