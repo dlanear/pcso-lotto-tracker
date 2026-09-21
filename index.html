@@ -20,6 +20,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         h2 { text-align: center; color: #1e3a8a; margin-top: 0; }
+        
+        /* Filter Grid Layout */
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -30,39 +32,113 @@
             border-radius: 8px;
             border: 1px solid #e2e8f0;
         }
-        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
         label { font-weight: 600; font-size: 14px; color: #475569; }
         input[type="date"], select {
-            padding: 10px; font-size: 15px; border: 1px solid #cbd5e1;
-            border-radius: 6px; background: white; outline: none;
+            padding: 10px;
+            font-size: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: white;
+            outline: none;
         }
-        .btn-container { text-align: right; margin-bottom: 25px; }
+        input[type="date"]:focus, select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        optgroup { font-weight: bold; color: #1e3a8a; background: #f1f5f9; }
+        option { color: #334155; background: white; font-weight: normal; }
+
+        /* Search Button Styling */
+        .btn-container {
+            text-align: right;
+            margin-bottom: 25px;
+        }
         .search-btn {
-            background-color: #2563eb; color: white; border: none;
-            padding: 12px 24px; font-size: 16px; font-weight: 600;
-            border-radius: 6px; cursor: pointer; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+            transition: background 0.2s ease, transform 0.1s ease;
         }
         .search-btn:hover { background-color: #1d4ed8; }
+        .search-btn:active { transform: scale(0.98); }
+
+        /* Results Table Layout */
         .results-heading {
-            font-weight: bold; font-size: 14px; text-transform: uppercase;
-            letter-spacing: 0.05em; color: #64748b; margin-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0; padding-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
         }
-        .date-section { margin-bottom: 30px; }
+        .date-section {
+            margin-bottom: 30px;
+        }
         .draw-date-header {
-            font-size: 16px; font-weight: bold; color: #0f172a;
-            margin: 15px 0 10px 0; background: #e2e8f0; padding: 6px 12px; border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 15px 0 10px 0;
+            background: #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 6px;
         }
         .table-responsive {
-            width: 100%; overflow-x: auto; border: 1px solid #e2e8f0;
-            border-radius: 8px; background: #ffffff;
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
         }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th { background-color: #f8fafc; color: #64748b; font-weight: 600; padding: 12px 16px; border-bottom: 2px solid #e2e8f0; text-transform: uppercase; font-size: 12px; }
-        td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; color: #334155; }
-        .game-col { font-weight: 600; color: #1e3a8a; }
-        .numbers-col { font-family: monospace; font-weight: bold; font-size: 16px; letter-spacing: 1px; }
-        .jackpot-col { font-weight: 600; color: #10b981; text-align: right; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            padding: 12px 16px;
+            border-bottom: 2px solid #e2e8f0;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+            vertical-align: middle;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: #f8fafc; }
+        
+        .game-col { font-weight: 600; color: #1e3a8a; min-width: 160px; }
+        .numbers-col { 
+            font-family: 'Courier New', Courier, monospace; 
+            font-weight: bold; 
+            font-size: 16px; 
+            color: #0f172a; 
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .jackpot-col { font-weight: 600; color: #10b981; text-align: right; min-width: 130px; }
+        
         .no-data { text-align: center; color: #94a3b8; padding: 40px 0; font-style: italic; }
     </style>
 </head>
@@ -70,6 +146,8 @@
 
 <div class="container">
     <h2>PCSO Lotto Results Table Viewer</h2>
+    
+    <!-- Filter Panel -->
     <div class="filter-grid">
         <div class="form-group">
             <label for="fromDate">From Date:</label>
@@ -83,18 +161,26 @@
             <label for="gameSelect">Game Type:</label>
             <select id="gameSelect">
                 <option value="ALL">All Lotto Games</option>
-                <option value="Ultra Lotto 6/58">Ultra Lotto 6/58</option>
-                <option value="Grand Lotto 6/55">Grand Lotto 6/55</option>
-                <option value="Super Lotto 6/49">Super Lotto 6/49</option>
-                <option value="Mega Lotto 6/45">Mega Lotto 6/45</option>
-                <option value="Lotto 6/42">Lotto 6/42</option>
-                <option value="6D Lotto">6D Lotto</option>
-                <option value="3D Lotto">3D Lotto</option>
-                <option value="2D Lotto">2D Lotto</option>
+                
+                <optgroup label="Major Pari-Mutuel Games">
+                    <option value="Ultra Lotto 6/58">Ultra Lotto 6/58</option>
+                    <option value="Grand Lotto 6/55">Grand Lotto 6/55</option>
+                    <option value="Super Lotto 6/49">Super Lotto 6/49</option>
+                    <option value="Mega Lotto 6/45">Mega Lotto 6/45</option>
+                    <option value="Lotto 6/42">Lotto 6/42</option>
+                </optgroup>
+
+                <optgroup label="Digit Games">
+                    <option value="6D Lotto">6D Lotto</option>
+                    <option value="4D Lotto">4D Lotto</option>
+                    <option value="3D Lotto">3D Lotto</option>
+                    <option value="2D Lotto">2D Lotto</option>
+                </optgroup>
             </select>
         </div>
     </div>
 
+    <!-- Search Button Container -->
     <div class="btn-container">
         <button id="searchBtn" class="search-btn">Search Results</button>
     </div>
@@ -106,6 +192,7 @@
 </div>
 
 <script>
+    // Database starts completely empty and waits to fetch the raw data file
     let historicalLottoData = {};
 
     const fromInput = document.getElementById('fromDate');
@@ -113,30 +200,37 @@
     const gameSelect = document.getElementById('gameSelect');
     const searchBtn = document.getElementById('searchBtn');
 
-    // Automatically set default dates
+    // Automatically map date inputs dynamically to recent rolling metrics
     const today = new Date();
     const pastDate = new Date();
-    pastDate.setDate(today.getDate() - 7); // Default to past 7 days
+    pastDate.setDate(today.getDate() - 7); // Pre-sets the default view range to the past 7 days
     
     toInput.value = today.toISOString().split('T')[0];
     fromInput.value = pastDate.toISOString().split('T')[0];
 
+    // Set maximum boundaries so users cannot select future dates
+    toInput.max = today.toISOString().split('T')[0];
+    fromInput.max = today.toISOString().split('T')[0];
+
     searchBtn.addEventListener('click', filterAndRenderResults);
 
-    // FETCH THE AUTOMATED JSON FILE WITH CACHE BUSTING PROTECTION
+    // FETCH DATA FROM YOUR AUTOMATED JSON STORAGE UNIT
     fetch('data.json?v=' + String(new Date().getTime()))
         .then(response => {
-            if (!response.ok) throw new Error("File missing on host path profile.");
+            if (!response.ok) throw new Error("JSON asset tracking target could not be verified.");
             return response.json();
         })
         .then(data => {
             historicalLottoData = data;
-            filterAndRenderResults(); // Render automatically on load
+            filterAndRenderResults(); // Run immediately on load once data is populated
         })
         .catch(err => {
-            document.getElementById('resultsContainer').innerHTML = `<p class="no-data" style="color:red;">Error loading database: ${err.message}. Please wait for the daily scraper runner to generate data.json.</p>`;
+            document.getElementById('resultsContainer').innerHTML = `
+                <p class="no-data" style="color:#ef4444;">
+                    Error loading database: ${err.message}. <br>
+                    Please trigger your GitHub Actions workflow once manually to generate your live data.json file.
+                </p>`;
         });
-
 
     function filterAndRenderResults() {
         const fromDate = fromInput.value;
@@ -148,6 +242,11 @@
 
         if (!fromDate || !toDate) {
             container.innerHTML = '<p class="no-data">Please fill out both date fields.</p>';
+            return;
+        }
+
+        if (fromDate > toDate) {
+            container.innerHTML = '<p class="no-data" style="color: #ef4444;">"From Date" cannot be later than "To Date".</p>';
             return;
         }
 
@@ -178,43 +277,4 @@
                 tableResponsive.className = 'table-responsive';
 
                 const table = document.createElement('table');
-                table.innerHTML = `
-                    <thead>
-                        <tr>
-                            <th class="game-col">Game Category</th>
-                            <th>Winning Combination</th>
-                            <th class="jackpot-col">Estimated Jackpot</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                `;
-
-                const tbody = table.querySelector('tbody');
-
-                matchingDraws.forEach(draw => {
-                    const row = document.createElement('tr');
-                    const isDigitGame = draw.game.includes('Lotto') && (draw.game.includes('3D') || draw.game.includes('2D') || draw.game.includes('6D'));
-                    const numbersString = isDigitGame ? draw.numbers.join('-') : draw.numbers.join(' ');
-
-                    row.innerHTML = `
-                        <td class="game-col">${draw.game}</td>
-                        <td class="numbers-col">${numbersString}</td>
-                        <td class="jackpot-col">${draw.jackpot}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                tableResponsive.appendChild(table);
-                dateSection.appendChild(tableResponsive);
-                container.appendChild(dateSection);
-            }
-        });
-
-        if (totalResultsFound === 0) {
-            container.innerHTML = `<p class="no-data">No matching draw results found for the specified criteria.</p>`;
-        }
-    }
-</script>
-
-</body>
-</html>
+table.innerHTML = `Game CategoryWinning CombinationEstimated Jackpot`;const tbody = table.querySelector('tbody');matchingDraws.forEach(draw => {const row = document.createElement('tr');const isDigitGame = draw.game.includes('Lotto') && (draw.game.includes('3D') || draw.game.includes('2D') || draw.game.includes('6D') || draw.game.includes('4D'));const numbersString = isDigitGame ? draw.numbers.join('-') : draw.numbers.join(' ');row.innerHTML = `${draw.game}${numbersString}${draw.jackpot}`;tbody.appendChild(row);});tableResponsive.appendChild(table);dateSection.appendChild(tableResponsive);container.appendChild(dateSection);}});if (totalResultsFound === 0) {container.innerHTML = `No matching draw results found for the specified criteria.';}}
