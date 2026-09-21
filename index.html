@@ -200,13 +200,20 @@
     const gameSelect = document.getElementById('gameSelect');
     const searchBtn = document.getElementById('searchBtn');
 
-    // Automatically map date inputs dynamically to recent rolling metrics
+    // Automatically map date inputs dynamically to wide historical ranges
     const today = new Date();
     const pastDate = new Date();
-    pastDate.setDate(today.getDate() - 7); // Pre-sets the default view range to the past 7 days
+    
+    // Set default view on initialization to query the past 10 years (3650 days)
+    pastDate.setDate(today.getDate() - 3650); 
     
     toInput.value = today.toISOString().split('T')[0];
     fromInput.value = pastDate.toISOString().split('T')[0];
+
+    // Restrict calendars from picking any future dates
+    toInput.max = today.toISOString().split('T')[0];
+    fromInput.max = today.toISOString().split('T')[0];
+
 
     // Set maximum boundaries so users cannot select future dates
     toInput.max = today.toISOString().split('T')[0];
