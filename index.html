@@ -123,10 +123,10 @@
 
     searchBtn.addEventListener('click', filterAndRenderResults);
 
-    // FETCH THE AUTOMATED JSON FILE FROM YOUR OWN REPOSITORY
-    fetch('data.json')
+    // FETCH THE AUTOMATED JSON FILE WITH CACHE BUSTING PROTECTION
+    fetch('data.json?v=' + String(new Date().getTime()))
         .then(response => {
-            if (!response.ok) throw new Error("No data found yet.");
+            if (!response.ok) throw new Error("File missing on host path profile.");
             return response.json();
         })
         .then(data => {
@@ -136,6 +136,7 @@
         .catch(err => {
             document.getElementById('resultsContainer').innerHTML = `<p class="no-data" style="color:red;">Error loading database: ${err.message}. Please wait for the daily scraper runner to generate data.json.</p>`;
         });
+
 
     function filterAndRenderResults() {
         const fromDate = fromInput.value;
