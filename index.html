@@ -5,137 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCSO Lotto Results Table Viewer</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 15px;
-            background-color: #f1f5f9;
-            color: #334155;
-        }
-        .container {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        body { font-family: 'Segoe UI', sans-serif; max-width: 800px; margin: 20px auto; padding: 15px; background-color: #f1f5f9; color: #334155; }
+        .container { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         h2 { text-align: center; color: #1e3a8a; margin-top: 0; }
-        
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 15px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-weight: 600; font-size: 14px; color: #475569; }
-        input[type="date"], select {
-            padding: 10px;
-            font-size: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            background: white;
-            outline: none;
-        }
-        input[type="date"]:focus, select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
-        optgroup { font-weight: bold; color: #1e3a8a; background: #f1f5f9; }
-        option { color: #334155; background: white; font-weight: normal; }
-
-        .btn-container {
-            text-align: right;
-            margin-bottom: 25px;
-        }
-        .search-btn {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-            transition: background 0.2s ease, transform 0.1s ease;
-        }
+        input[type="date"], select { padding: 10px; font-size: 15px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; outline: none; }
+        .btn-container { text-align: right; margin-bottom: 25px; }
+        .search-btn { background-color: #2563eb; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; }
         .search-btn:hover { background-color: #1d4ed8; }
-        .search-btn:active { transform: scale(0.98); }
-
-        .results-heading {
-            font-weight: bold;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748b;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 5px;
-        }
-        .date-section {
-            margin-bottom: 30px;
-        }
-        .draw-date-header {
-            font-size: 16px;
-            font-weight: bold;
-            color: #0f172a;
-            margin: 15px 0 10px 0;
-            background: #e2e8f0;
-            padding: 6px 12px;
-            border-radius: 6px;
-        }
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: #ffffff;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 14px;
-        }
-        th {
-            background-color: #f8fafc;
-            color: #64748b;
-            font-weight: 600;
-            padding: 12px 16px;
-            border-bottom: 2px solid #e2e8f0;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 0.05em;
-        }
-        td {
-            padding: 14px 16px;
-            border-bottom: 1px solid #e2e8f0;
-            color: #334155;
-            vertical-align: middle;
-        }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background-color: #f8fafc; }
-        
-        .game-col { font-weight: 600; color: #1e3a8a; min-width: 160px; }
-        .numbers-col { 
-            font-family: 'Courier New', Courier, monospace; 
-            font-weight: bold; 
-            font-size: 16px; 
-            color: #0f172a; 
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-        .jackpot-col { font-weight: 600; color: #10b981; text-align: right; min-width: 130px; }
-        
+        .results-heading { font-weight: bold; font-size: 14px; text-transform: uppercase; color: #64748b; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; }
+        .date-section { margin-bottom: 30px; }
+        .draw-date-header { font-size: 16px; font-weight: bold; color: #0f172a; margin: 15px 0 10px 0; background: #e2e8f0; padding: 6px 12px; border-radius: 6px; }
+        .table-responsive { width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #ffffff; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th { background-color: #f8fafc; color: #64748b; font-weight: 600; padding: 12px 16px; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .game-col { font-weight: 600; color: #1e3a8a; }
+        .numbers-col { font-family: monospace; font-weight: bold; font-size: 16px; color: #0f172a; letter-spacing: 1px; }
+        .jackpot-col { font-weight: 600; color: #10b981; text-align: right; }
         .no-data { text-align: center; color: #94a3b8; padding: 40px 0; font-style: italic; }
     </style>
 </head>
@@ -143,7 +32,6 @@
 
 <div class="container">
     <h2>PCSO Lotto Results Table Viewer</h2>
-    
     <div class="filter-grid">
         <div class="form-group">
             <label for="fromDate">From Date:</label>
@@ -157,16 +45,14 @@
             <label for="gameSelect">Game Type:</label>
             <select id="gameSelect">
                 <option value="ALL">All Lotto Games</option>
-                
-                <optgroup label="Major Pari-Mutuel Games">
+                <optgroup label="Major Games">
                     <option value="58">Ultra Lotto 6/58</option>
                     <option value="55">Grand Lotto 6/55</option>
                     <option value="49">Super Lotto 6/49</option>
                     <option value="45">Mega Lotto 6/45</option>
                     <option value="42">Lotto 6/42</option>
                 </optgroup>
-
-                <optgroup label="Digit Games">
+                <optgroup label="Digits">
                     <option value="6D">6D Lotto</option>
                     <option value="4D">4D Lotto</option>
                     <option value="3D">3D Lotto / Swertres</option>
@@ -194,55 +80,38 @@
     const gameSelect = document.getElementById('gameSelect');
     const searchBtn = document.getElementById('searchBtn');
 
-    // Default the date filter to display 2 years ago up to today
-    const today = new Date();
-    const pastDate = new Date();
-    pastDate.setDate(today.getDate() - 730); 
-    
-    toInput.value = today.toISOString().split('T')[0];
-    fromInput.value = pastDate.toISOString().split('T')[0];
-
-    toInput.max = today.toISOString().split('T')[0];
-    fromInput.max = today.toISOString().split('T')[0];
+    // Default dates to include September 2026 scope window
+    fromInput.value = "2026-09-01";
+    toInput.value = "2026-09-22";
 
     searchBtn.addEventListener('click', filterAndRenderResults);
 
-        // FETCH THE AUTOMATED JSON FILE WITH NATIVE CACHE BUSTING PROTECTION
-    fetch('data.json?v=' + String(new Date().getTime()))
-        .then(response => {
-            if (!response.ok) throw new Error("JSON asset could not be retrieved from hosting path.");
-            return response.json();
+    // FETCH DATA SECURELY WITH NO RUNTIME CRASH RISK
+    fetch('data.json?v=' + new Date().getTime())
+        .then(res => {
+            if (!res.ok) throw new Error("Could not find data.json");
+            return res.json();
         })
         .then(data => {
             historicalLottoData = data;
-            filterAndRenderResults(); // Fires layout engine automatically on completion
+            filterAndRenderResults(); 
         })
         .catch(err => {
-            document.getElementById('resultsContainer').innerHTML = `
-                <p class="no-data" style="color:#ef4444;">
-                    Error loading database: ${err.message}. <br>
-                    Please ensure data.json is fully compiled in the main branch root.
-                </p>`;
+            document.getElementById('resultsContainer').innerHTML = `<p class="no-data" style="color:#ef4444;">Error: ${err.message}. Please rerun your GitHub Action.</p>`;
         });
 
-
-    // NORMALIZATION ALGORITHM
-    // Maps variations like "6/58 Ultra Lotto", "Ultra Lotto 6/58", "6/58" to a clean identifier
     function matchGame(drawGameName, targetFilterValue) {
         if (targetFilterValue === "ALL") return true;
-        
         const cleanName = drawGameName.toLowerCase();
-        
         if (targetFilterValue === "58" && (cleanName.includes("58") || cleanName.includes("ultra"))) return true;
         if (targetFilterValue === "55" && (cleanName.includes("55") || cleanName.includes("grand"))) return true;
         if (targetFilterValue === "49" && (cleanName.includes("49") || cleanName.includes("super"))) return true;
         if (targetFilterValue === "45" && (cleanName.includes("45") || cleanName.includes("mega"))) return true;
-        if (targetFilterValue === "42" && (cleanName.includes("42") || cleanName.includes("national"))) return true;
+        if (targetFilterValue === "42" && (cleanName.includes("42") || cleanName.includes("42"))) return true;
         if (targetFilterValue === "6D" && cleanName.includes("6d")) return true;
         if (targetFilterValue === "4D" && cleanName.includes("4d")) return true;
-        if (targetFilterValue === "3D" && (cleanName.includes("3d") || cleanName.includes("swer") || cleanName.includes("suertres"))) return true;
-        if (targetFilterValue === "2D" && (cleanName.includes("2d") || cleanName.includes("ez") || cleanName.includes("ez2"))) return true;
-        
+        if (targetFilterValue === "3D" && (cleanName.includes("3d") || cleanName.includes("swer"))) return true;
+        if (targetFilterValue === "2D" && (cleanName.includes("2d") || cleanName.includes("ez"))) return true;
         return false;
     }
 
@@ -259,12 +128,6 @@
             return;
         }
 
-        if (fromDate > toDate) {
-            container.innerHTML = '<p class="no-data" style="color: #ef4444;">"From Date" cannot be later than "To Date".</p>';
-            return;
-        }
-
-        // Get keys inside data.json and sort newest first
         const sortedDatesInRange = Object.keys(historicalLottoData)
             .filter(date => date >= fromDate && date <= toDate)
             .sort((a, b) => b.localeCompare(a));
@@ -272,4 +135,53 @@
         let totalResultsFound = 0;
 
         sortedDatesInRange.forEach(date => {
-const matchingDraws = historicalLottoData[date].filter(draw => {return matchGame(draw.game, selectedGameCode);});if (matchingDraws.length > 0) {totalResultsFound += matchingDraws.length;const dateSection = document.createElement('div');dateSection.className = 'date-section';const formattedDate = new Date(date).toLocaleDateString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'});dateSection.innerHTML = <div class="draw-date-header">${formattedDate}</div>;const tableResponsive = document.createElement('div');tableResponsive.className = 'table-responsive';const table = document.createElement('table');table.innerHTML = `Game CategoryWinning CombinationEstimated Jackpot`;const tbody = table.querySelector('tbody');matchingDraws.forEach(draw => {const row = document.createElement('tr');// Format output numbers cleanly (numbers are converted to strings if objects)let numArr = Array.isArray(draw.numbers) ? draw.numbers : [draw.numbers];const cleanName = draw.game.toLowerCase();const isDigitGame = cleanName.includes("3d") || cleanName.includes("2d") || cleanName.includes("6d") || cleanName.includes("4d") || cleanName.includes("swer");const numbersString = isDigitGame ? numArr.join('-') : numArr.join(' ');row.innerHTML = `${draw.game}${numbersString}${draw.jackpot || "N/A"}`;tbody.appendChild(row);});tableResponsive.appendChild(table);dateSection.appendChild(tableResponsive);container.appendChild(dateSection);}});if (totalResultsFound === 0) {container.innerHTML = 'No matching draw results found for the specified criteria.';}}
+            const matchingDraws = historicalLottoData[date].filter(draw => matchGame(draw.game, selectedGameCode));
+
+            if (matchingDraws.length > 0) {
+                totalResultsFound += matchingDraws.length;
+
+                const dateSection = document.createElement('div');
+                dateSection.className = 'date-section';
+                
+                const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+                });
+                
+                dateSection.innerHTML = `<div class="draw-date-header">${formattedDate}</div>`;
+
+                const tableResponsive = document.createElement('div');
+                tableResponsive.className = 'table-responsive';
+
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead><tr><th class="game-col">Game Category</th><th>Winning Combination</th><th class="jackpot-col">Estimated Jackpot</th></tr></thead>
+                    <tbody></tbody>
+                `;
+
+                const tbody = table.querySelector('tbody');
+
+                matchingDraws.forEach(draw => {
+                    const row = document.createElement('tr');
+                    let numArr = Array.isArray(draw.numbers) ? draw.numbers : [draw.numbers];
+                    const cleanName = draw.game.toLowerCase();
+                    const isDigitGame = cleanName.includes("3d") || cleanName.includes("2d") || cleanName.includes("6d") || cleanName.includes("swer");
+                    const numbersString = isDigitGame ? numArr.join('-') : numArr.join(' ');
+
+                    row.innerHTML = `<td class="game-col">${draw.game}</td><td class="numbers-col">${numbersString}</td><td class="jackpot-col">${draw.jackpot || "N/A"}</td>`;
+                    tbody.appendChild(row);
+                });
+
+                tableResponsive.appendChild(table);
+                dateSection.appendChild(tableResponsive);
+                container.appendChild(dateSection);
+            }
+        });
+
+        if (totalResultsFound === 0) {
+            container.innerHTML = '<p class="no-data">No matching draw results found for the specified criteria.</p>';
+        }
+    }
+</script>
+
+</body>
+</html>
