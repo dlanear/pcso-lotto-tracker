@@ -197,5 +197,60 @@
             ],
             "jackpot": "\u20b116,400,000.00"
         }
+    ],
+    "2026-09-22": [
+        {
+            "game": "Ultra Lotto 6/58",
+            "numbers": [
+                "Awaiting",
+                "Draw",
+                "--",
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "Scheduled: 9:00 PM PST"
+        },
+        {
+            "game": "Super Lotto 6/49",
+            "numbers": [
+                "Awaiting",
+                "Draw",
+                "--",
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "Scheduled: 9:00 PM PST"
+        },
+        {
+            "game": "Lotto 6/42",
+            "numbers": [
+                "Awaiting",
+                "Draw",
+                "--",
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "Scheduled: 9:00 PM PST"
+        },
+        {
+            "game": "3D Lotto",
+            "numbers": [
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "Scheduled: 9:00 PM PST"
+        },
+        {
+            "game": "2D Lotto",
+            "numbers": [
+                "--",
+                "--"
+            ],
+            "jackpot": "Scheduled: 9:00 PM PST"
+        }
     ]
 }
