@@ -21,7 +21,6 @@
         }
         h2 { text-align: center; color: #1e3a8a; margin-top: 0; }
         
-        /* Filter Grid Layout */
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -53,7 +52,6 @@
         optgroup { font-weight: bold; color: #1e3a8a; background: #f1f5f9; }
         option { color: #334155; background: white; font-weight: normal; }
 
-        /* Search Button Styling */
         .btn-container {
             text-align: right;
             margin-bottom: 25px;
@@ -73,7 +71,6 @@
         .search-btn:hover { background-color: #1d4ed8; }
         .search-btn:active { transform: scale(0.98); }
 
-        /* Results Table Layout */
         .results-heading {
             font-weight: bold;
             font-size: 14px;
@@ -147,7 +144,6 @@
 <div class="container">
     <h2>PCSO Lotto Results Table Viewer</h2>
     
-    <!-- Filter Panel -->
     <div class="filter-grid">
         <div class="form-group">
             <label for="fromDate">From Date:</label>
@@ -163,24 +159,23 @@
                 <option value="ALL">All Lotto Games</option>
                 
                 <optgroup label="Major Pari-Mutuel Games">
-                    <option value="Ultra Lotto 6/58">Ultra Lotto 6/58</option>
-                    <option value="Grand Lotto 6/55">Grand Lotto 6/55</option>
-                    <option value="Super Lotto 6/49">Super Lotto 6/49</option>
-                    <option value="Mega Lotto 6/45">Mega Lotto 6/45</option>
-                    <option value="Lotto 6/42">Lotto 6/42</option>
+                    <option value="58">Ultra Lotto 6/58</option>
+                    <option value="55">Grand Lotto 6/55</option>
+                    <option value="49">Super Lotto 6/49</option>
+                    <option value="45">Mega Lotto 6/45</option>
+                    <option value="42">Lotto 6/42</option>
                 </optgroup>
 
                 <optgroup label="Digit Games">
-                    <option value="6D Lotto">6D Lotto</option>
-                    <option value="4D Lotto">4D Lotto</option>
-                    <option value="3D Lotto">3D Lotto</option>
-                    <option value="2D Lotto">2D Lotto</option>
+                    <option value="6D">6D Lotto</option>
+                    <option value="4D">4D Lotto</option>
+                    <option value="3D">3D Lotto / Swertres</option>
+                    <option value="2D">2D Lotto / EZ2</option>
                 </optgroup>
             </select>
         </div>
     </div>
 
-    <!-- Search Button Container -->
     <div class="btn-container">
         <button id="searchBtn" class="search-btn">Search Results</button>
     </div>
@@ -192,7 +187,6 @@
 </div>
 
 <script>
-    // Database starts completely empty and waits to fetch the raw data file
     let historicalLottoData = {};
 
     const fromInput = document.getElementById('fromDate');
@@ -200,49 +194,61 @@
     const gameSelect = document.getElementById('gameSelect');
     const searchBtn = document.getElementById('searchBtn');
 
-    // Automatically map date inputs dynamically to wide historical ranges
+    // Default the date filter to display 2 years ago up to today
     const today = new Date();
     const pastDate = new Date();
-    
-    // Set default view on initialization to query the past 10 years (3650 days)
-    pastDate.setDate(today.getDate() - 3650); 
+    pastDate.setDate(today.getDate() - 730); 
     
     toInput.value = today.toISOString().split('T')[0];
     fromInput.value = pastDate.toISOString().split('T')[0];
 
-    // Restrict calendars from picking any future dates
-    toInput.max = today.toISOString().split('T')[0];
-    fromInput.max = today.toISOString().split('T')[0];
-
-
-    // Set maximum boundaries so users cannot select future dates
     toInput.max = today.toISOString().split('T')[0];
     fromInput.max = today.toISOString().split('T')[0];
 
     searchBtn.addEventListener('click', filterAndRenderResults);
 
-    // FETCH DATA FROM YOUR AUTOMATED JSON STORAGE UNIT
+    // FETCH DATA
     fetch('data.json?v=' + String(new Date().getTime()))
         .then(response => {
-            if (!response.ok) throw new Error("JSON asset tracking target could not be verified.");
+            if (!response.ok) throw new Error("JSON file could not be verified on the server.");
             return response.json();
         })
         .then(data => {
             historicalLottoData = data;
-            filterAndRenderResults(); // Run immediately on load once data is populated
+            filterAndRenderResults(); 
         })
         .catch(err => {
             document.getElementById('resultsContainer').innerHTML = `
                 <p class="no-data" style="color:#ef4444;">
                     Error loading database: ${err.message}. <br>
-                    Please trigger your GitHub Actions workflow once manually to generate your live data.json file.
+                    Please wait for the automated scraper runner to populate data.json.
                 </p>`;
         });
+
+    // NORMALIZATION ALGORITHM
+    // Maps variations like "6/58 Ultra Lotto", "Ultra Lotto 6/58", "6/58" to a clean identifier
+    function matchGame(drawGameName, targetFilterValue) {
+        if (targetFilterValue === "ALL") return true;
+        
+        const cleanName = drawGameName.toLowerCase();
+        
+        if (targetFilterValue === "58" && (cleanName.includes("58") || cleanName.includes("ultra"))) return true;
+        if (targetFilterValue === "55" && (cleanName.includes("55") || cleanName.includes("grand"))) return true;
+        if (targetFilterValue === "49" && (cleanName.includes("49") || cleanName.includes("super"))) return true;
+        if (targetFilterValue === "45" && (cleanName.includes("45") || cleanName.includes("mega"))) return true;
+        if (targetFilterValue === "42" && (cleanName.includes("42") || cleanName.includes("national"))) return true;
+        if (targetFilterValue === "6D" && cleanName.includes("6d")) return true;
+        if (targetFilterValue === "4D" && cleanName.includes("4d")) return true;
+        if (targetFilterValue === "3D" && (cleanName.includes("3d") || cleanName.includes("swer") || cleanName.includes("suertres"))) return true;
+        if (targetFilterValue === "2D" && (cleanName.includes("2d") || cleanName.includes("ez") || cleanName.includes("ez2"))) return true;
+        
+        return false;
+    }
 
     function filterAndRenderResults() {
         const fromDate = fromInput.value;
         const toDate = toInput.value;
-        const selectedGame = gameSelect.value;
+        const selectedGameCode = gameSelect.value;
         const container = document.getElementById('resultsContainer');
         
         container.innerHTML = ''; 
@@ -257,6 +263,7 @@
             return;
         }
 
+        // Get keys inside data.json and sort newest first
         const sortedDatesInRange = Object.keys(historicalLottoData)
             .filter(date => date >= fromDate && date <= toDate)
             .sort((a, b) => b.localeCompare(a));
@@ -264,24 +271,4 @@
         let totalResultsFound = 0;
 
         sortedDatesInRange.forEach(date => {
-            const matchingDraws = historicalLottoData[date].filter(draw => {
-                return selectedGame === 'ALL' || draw.game === selectedGame;
-            });
-
-            if (matchingDraws.length > 0) {
-                totalResultsFound += matchingDraws.length;
-
-                const dateSection = document.createElement('div');
-                dateSection.className = 'date-section';
-                
-                const formattedDate = new Date(date).toLocaleDateString('en-US', {
-                    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
-                });
-                
-                dateSection.innerHTML = `<div class="draw-date-header">${formattedDate}</div>`;
-
-                const tableResponsive = document.createElement('div');
-                tableResponsive.className = 'table-responsive';
-
-                const table = document.createElement('table');
-table.innerHTML = `Game CategoryWinning CombinationEstimated Jackpot`;const tbody = table.querySelector('tbody');matchingDraws.forEach(draw => {const row = document.createElement('tr');const isDigitGame = draw.game.includes('Lotto') && (draw.game.includes('3D') || draw.game.includes('2D') || draw.game.includes('6D') || draw.game.includes('4D'));const numbersString = isDigitGame ? draw.numbers.join('-') : draw.numbers.join(' ');row.innerHTML = `${draw.game}${numbersString}${draw.jackpot}`;tbody.appendChild(row);});tableResponsive.appendChild(table);dateSection.appendChild(tableResponsive);container.appendChild(dateSection);}});if (totalResultsFound === 0) {container.innerHTML = `No matching draw results found for the specified criteria.';}}
+const matchingDraws = historicalLottoData[date].filter(draw => {return matchGame(draw.game, selectedGameCode);});if (matchingDraws.length > 0) {totalResultsFound += matchingDraws.length;const dateSection = document.createElement('div');dateSection.className = 'date-section';const formattedDate = new Date(date).toLocaleDateString('en-US', {weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'});dateSection.innerHTML = <div class="draw-date-header">${formattedDate}</div>;const tableResponsive = document.createElement('div');tableResponsive.className = 'table-responsive';const table = document.createElement('table');table.innerHTML = `Game CategoryWinning CombinationEstimated Jackpot`;const tbody = table.querySelector('tbody');matchingDraws.forEach(draw => {const row = document.createElement('tr');// Format output numbers cleanly (numbers are converted to strings if objects)let numArr = Array.isArray(draw.numbers) ? draw.numbers : [draw.numbers];const cleanName = draw.game.toLowerCase();const isDigitGame = cleanName.includes("3d") || cleanName.includes("2d") || cleanName.includes("6d") || cleanName.includes("4d") || cleanName.includes("swer");const numbersString = isDigitGame ? numArr.join('-') : numArr.join(' ');row.innerHTML = `${draw.game}${numbersString}${draw.jackpot || "N/A"}`;tbody.appendChild(row);});tableResponsive.appendChild(table);dateSection.appendChild(tableResponsive);container.appendChild(dateSection);}});if (totalResultsFound === 0) {container.innerHTML = 'No matching draw results found for the specified criteria.';}}
