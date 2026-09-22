@@ -207,23 +207,24 @@
 
     searchBtn.addEventListener('click', filterAndRenderResults);
 
-    // FETCH DATA
+        // FETCH THE AUTOMATED JSON FILE WITH NATIVE CACHE BUSTING PROTECTION
     fetch('data.json?v=' + String(new Date().getTime()))
         .then(response => {
-            if (!response.ok) throw new Error("JSON file could not be verified on the server.");
+            if (!response.ok) throw new Error("JSON asset could not be retrieved from hosting path.");
             return response.json();
         })
         .then(data => {
             historicalLottoData = data;
-            filterAndRenderResults(); 
+            filterAndRenderResults(); // Fires layout engine automatically on completion
         })
         .catch(err => {
             document.getElementById('resultsContainer').innerHTML = `
                 <p class="no-data" style="color:#ef4444;">
                     Error loading database: ${err.message}. <br>
-                    Please wait for the automated scraper runner to populate data.json.
+                    Please ensure data.json is fully compiled in the main branch root.
                 </p>`;
         });
+
 
     // NORMALIZATION ALGORITHM
     // Maps variations like "6/58 Ultra Lotto", "Ultra Lotto 6/58", "6/58" to a clean identifier
