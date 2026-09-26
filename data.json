@@ -417,5 +417,60 @@
             ],
             "jackpot": "2PM - 5PM - 9PM Draws"
         }
+    ],
+    "2026-09-26": [
+        {
+            "game": "Ultra Lotto 6/58",
+            "numbers": [
+                "Awaiting",
+                "Draw",
+                "--",
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "9:00 PM Broadcast"
+        },
+        {
+            "game": "Super Lotto 6/49",
+            "numbers": [
+                "Awaiting",
+                "Draw",
+                "--",
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "9:00 PM Broadcast"
+        },
+        {
+            "game": "Lotto 6/42",
+            "numbers": [
+                "Awaiting",
+                "Draw",
+                "--",
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "9:00 PM Broadcast"
+        },
+        {
+            "game": "3D Lotto (Swertres)",
+            "numbers": [
+                "--",
+                "--",
+                "--"
+            ],
+            "jackpot": "2PM - 5PM - 9PM Draws"
+        },
+        {
+            "game": "2D Lotto (EZ2)",
+            "numbers": [
+                "--",
+                "--"
+            ],
+            "jackpot": "2PM - 5PM - 9PM Draws"
+        }
     ]
 }
